@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     EditText editText;
@@ -88,8 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 case "+":res=Double.parseDouble(oldNumb)+Double.parseDouble(newNumb);break;
                 case "/":res=Double.parseDouble(oldNumb)/Double.parseDouble(newNumb);break;
                 case "*":res=Double.parseDouble(oldNumb)*Double.parseDouble(newNumb);break;
-            }editText.setText(res.toString());
-        }catch (Exception ex){System.out.println(ex.getMessage());}
+            }
+            editText.setText(res.toString());
+            oper="";
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

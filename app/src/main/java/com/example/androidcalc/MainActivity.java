@@ -21,13 +21,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickNumb(View view) {
-        if(isNull&&view.getId()!=R.id.bDot){
+        if(isNull&&view.getId()!=R.id.bDot&&view.getId()!=R.id.bPerc){
             editText.setText("");
             isNull=false;
             isMinus=false;
         }
         String numb = editText.getText().toString();
         switch (view.getId()){
+            case R.id.b0:numb=numb+"0";break;
+            case R.id.b1:numb=numb+"1";break;
+            case R.id.b2:numb=numb+"2";break;
+            case R.id.b3:numb=numb+"3";break;
+            case R.id.b4:numb=numb+"4";break;
+            case R.id.b5:numb=numb+"5";break;
+            case R.id.b6:numb=numb+"6";break;
+            case R.id.b7:numb=numb+"7";break;
+            case R.id.b8:numb=numb+"8";break;
+            case R.id.b9:numb=numb+"9";break;
             case R.id.bAC:{
                 oldNumb="0";
                 numb="0";
@@ -45,16 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             }
-            case R.id.b0:numb=numb+"0";break;
-            case R.id.b1:numb=numb+"1";break;
-            case R.id.b2:numb=numb+"2";break;
-            case R.id.b3:numb=numb+"3";break;
-            case R.id.b4:numb=numb+"4";break;
-            case R.id.b5:numb=numb+"5";break;
-            case R.id.b6:numb=numb+"6";break;
-            case R.id.b7:numb=numb+"7";break;
-            case R.id.b8:numb=numb+"8";break;
-            case R.id.b9:numb=numb+"9";break;
             case R.id.bDot:{
                 if(!isDot){
                     numb=numb+".";
@@ -62,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
                     isDot=true;
                     break;
                 }
+            }
+            case R.id.bPerc:{
+                double perc = Double.parseDouble(numb)/100;
+                numb=String.valueOf(perc);
+                break;
             }
         }
         editText.setText(numb);
@@ -76,18 +81,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bPl:oper="+";break;
             case R.id.bDiv:oper="/";break;
             case R.id.bMult:oper="*";break;
-            case R.id.bPerc:{
-                double perc = Double.parseDouble(editText.getText().toString())/100;
-                editText.setText(String.valueOf(perc));
+            case R.id.bRes:{
+                editText.setText(oldNumb.toString());
+                oper="";
                 break;
             }
         }
     }
 
-    public void clickResult(View view) {
-        editText.setText(getResult());
-        oper="";
-    }
     public String getResult(){
         String newNumb=editText.getText().toString();
         Double res=0.0;

@@ -52,7 +52,7 @@
                 android:textSize="20dp"/>
             <Button
                 android:id="@+id/bPerc"
-                android:onClick="clickOperation"
+                android:onClick="clickNumb"
                 android:text="%"
                 android:height="30pt"
                 android:width="30pt"
@@ -229,7 +229,7 @@
                 android:textSize="20dp"/>
             <Button
                 android:id="@+id/bRes"
-                android:onClick="clickResult"
+                android:onClick="clickOperation"
                 android:text="="
                 android:height="30pt"
                 android:width="30pt"

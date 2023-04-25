@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     EditText editText;
-    String oper;
+    String oper="";
     String oldNumb="0";
     Boolean isNull=true;
     Boolean isMinus=false;
@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
         String numb = editText.getText().toString();
         switch (view.getId()){
             case R.id.bAC:{
+                oldNumb="0";
                 numb="0";
+                oper="";
                 isNull=true;
                 isMinus=false;
                 isDot=false;
@@ -60,42 +62,42 @@ public class MainActivity extends AppCompatActivity {
                     isDot=true;
                     break;
                 }
-
             }
-
-
         }
         editText.setText(numb);
     }
 
     public void clickOperation(View view) {
         isNull=true;
-        oldNumb=editText.getText().toString();
+        if(!oper.equals("")) getResult();
+        else oldNumb=editText.getText().toString();
         switch (view.getId()){
             case R.id.bMin:oper="-";break;
             case R.id.bPl:oper="+";break;
             case R.id.bDiv:oper="/";break;
             case R.id.bMult:oper="*";break;
-            case R.id.bPerc:break;
+            case R.id.bPerc:{
+                double perc = Double.parseDouble(editText.getText().toString())/100;
+                editText.setText(String.valueOf(perc));
+                break;
             }
         }
+    }
 
     public void clickResult(View view) {
-        try {
-            String newNumb=editText.getText().toString();
-            Double res=0.0;
-            switch (oper){
-                case "-":res=Double.parseDouble(oldNumb)-Double.parseDouble(newNumb);break;
-                case "+":res=Double.parseDouble(oldNumb)+Double.parseDouble(newNumb);break;
-                case "/":res=Double.parseDouble(oldNumb)/Double.parseDouble(newNumb);break;
-                case "*":res=Double.parseDouble(oldNumb)*Double.parseDouble(newNumb);break;
-            }
-            editText.setText(res.toString());
-            oper="";
-        }catch (Exception ex){
-            System.out.println(ex.getMessage());
-            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+        editText.setText(getResult());
+        oper="";
+    }
+    public String getResult(){
+        String newNumb=editText.getText().toString();
+        Double res=0.0;
+        switch (oper){
+            case "-":res=Double.parseDouble(oldNumb)-Double.parseDouble(newNumb);break;
+            case "+":res=Double.parseDouble(oldNumb)+Double.parseDouble(newNumb);break;
+            case "/":res=Double.parseDouble(oldNumb)/Double.parseDouble(newNumb);break;
+            case "*":res=Double.parseDouble(oldNumb)*Double.parseDouble(newNumb);break;
         }
-
+        oldNumb=res.toString();
+        return res.toString();
     }
 }

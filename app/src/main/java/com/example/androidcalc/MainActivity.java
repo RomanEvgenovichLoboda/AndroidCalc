@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickOperation(View view) {
         isNull=true;
-        if(!oper.equals("")) getResult();
+        if(!oper.equals("")) oldNumb=getResult();
         else oldNumb=editText.getText().toString();
         switch (view.getId()){
             case R.id.bMin:oper="-";break;
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
             case "/":res=Double.parseDouble(oldNumb)/Double.parseDouble(newNumb);break;
             case "*":res=Double.parseDouble(oldNumb)*Double.parseDouble(newNumb);break;
         }
-        oldNumb=res.toString();
         return res.toString();
     }
 }

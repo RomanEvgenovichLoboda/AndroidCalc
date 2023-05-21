@@ -1,23 +1,40 @@
 package com.example.androidcalc;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     EditText editText;
+    TextView editTextHist;
     String oper="";
     String oldNumb="0";
     Boolean isNull=true;
     Boolean isMinus=false;
     Boolean isDot=false;
+    //int Id=1;
+    SQLiteDatabase db;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText=findViewById(R.id.editText);
+        editTextHist=findViewById(R.id.editTextHist);
+
+
+        db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS users ( name TEXT)");
+        //query.close();
+        db.close();
     }
 
     public void clickNumb(View view) {
@@ -90,14 +107,74 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getResult(){
+        ContentValues values=new ContentValues();
         String newNumb=editText.getText().toString();
         Double res=0.0;
         switch (oper){
-            case "-":res=Double.parseDouble(oldNumb)-Double.parseDouble(newNumb);break;
-            case "+":res=Double.parseDouble(oldNumb)+Double.parseDouble(newNumb);break;
-            case "/":res=Double.parseDouble(oldNumb)/Double.parseDouble(newNumb);break;
-            case "*":res=Double.parseDouble(oldNumb)*Double.parseDouble(newNumb);break;
+            case "-":{
+                res=Double.parseDouble(oldNumb)-Double.parseDouble(newNumb);
+
+                //db.execSQL("INSERT OR IGNORE INTO users VALUES (oldNumb+'-'+newNumb+'='+ resStr);");
+                String resStr = res.toString();
+                values.put("name",oldNumb+'-'+newNumb+'='+ resStr);
+                db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+                db.insert("users",null,values);
+                db.close();
+                //Id++;
+                break;
+            }
+            case "+":{
+                res=Double.parseDouble(oldNumb)+Double.parseDouble(newNumb);
+                //db.execSQL("INSERT OR IGNORE INTO users VALUES (Id, oldNumb+'+'+newNumb+'='+ resStr);");
+                String resStr = res.toString();
+                values.put("name",oldNumb+'+'+newNumb+'='+ resStr);
+                db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                db.insert("users",null,values);
+                db.close();
+                //Id++;
+                break;
+            }
+            case "/":{
+                res=Double.parseDouble(oldNumb)/Double.parseDouble(newNumb);
+                //db.execSQL("INSERT OR IGNORE INTO users VALUES (Id, oldNumb+'/'+newNumb+'='+ resStr);");
+                String resStr = res.toString();
+                values.put("name",oldNumb+'/'+newNumb+'='+ resStr);
+                db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                db.insert("users",null,values);
+                db.close();
+                //Id++;
+                break;
+            }
+            case "*":{
+                res=Double.parseDouble(oldNumb)*Double.parseDouble(newNumb);
+                //db.execSQL("INSERT OR IGNORE INTO users VALUES (Id, oldNumb+'*'+newNumb+'='+ resStr);");
+                String resStr = res.toString();
+                values.put("name",oldNumb+'-'+newNumb+'='+ resStr);
+                db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                db.insert("users",null,values);
+                db.close();
+                //Id++;
+                break;
+            }
         }
         return res.toString();
+    }
+
+    public void clickHistory(View view) {
+        db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+        Cursor query = db.rawQuery("SELECT * FROM users;", null);
+        //TextView textView = findViewById(R.id.textView);
+        //textView.setText("");
+        String txt="";
+        while(query.moveToNext()){
+            txt+=query.getString(1)+"\n";
+            //String name = query.getString(0);
+            //int age = query.getInt(1);
+            //textView.append("Name: " + name + " Age: " + age + "\n");
+        }
+        editTextHist.setText(txt);
+        Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_LONG);
+        db.close();
     }
 }

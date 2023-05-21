@@ -8,6 +8,25 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/editTextHist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="TextView" />
+
+<!--    <EditText-->
+<!--        android:id="@+id/editTextHist"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:text="0"-->
+<!--        android:background="@color/gray"-->
+<!--        android:gravity="right|center"-->
+<!--        android:layout_weight="1"-->
+<!--        android:textSize="10pt"/>-->
 
     <EditText
         android:id="@+id/editText"
@@ -233,10 +252,20 @@
                 android:text="="
                 android:height="30pt"
                 android:width="30pt"
-                android:layout_weight="10"
+                android:layout_weight="1"
                 android:layout_marginRight="1pt"
                 android:backgroundTint="@color/blue"
                 android:textSize="20dp"/>
+            <Button
+                android:id="@+id/bHistory"
+                android:onClick="clickHistory"
+                android:text="History"
+                android:height="30pt"
+                android:width="30pt"
+                android:layout_weight="1"
+                android:layout_marginRight="1pt"
+                android:backgroundTint="@color/blue"
+                android:textSize="13dp"/>
 
         </TableRow>
     </TableLayout>
